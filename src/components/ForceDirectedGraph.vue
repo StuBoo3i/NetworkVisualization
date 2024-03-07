@@ -36,7 +36,7 @@
 
 <style scoped>
 .background-image {
-  background-image: url('../assets/chai/gteman.jpg');
+  background-image: url('../assets/gteman4.jpg');
   background-size: cover;
   background-position: center;
   width: 100%;
@@ -95,9 +95,7 @@
   flex: 1; /* 将命令输入记录与系统回复的区域高度设置为剩余空间的一部分 */
   overflow-y: auto; /* 如果内容溢出，添加垂直滚动条 */
   font-size: 14px; /* 设置字体大小 */
-  line-height: 0.4; /* 设置行高 */
-  padding: 0px; /* 设置内边距 */
-  margin: 0px 0; /* 设置外边距 */
+  line-height: 0.2; /* 设置行高 */
 }
 
 .transparent-input {
@@ -115,7 +113,6 @@
   font-weight: bold; /* 设置字体加粗 */
   color: #333;
   background-color: rgba(255, 255, 255, 0);
-  border: 1px solid #999;
 }
 
 .left {
@@ -136,7 +133,7 @@ export default {
       maxEdge: { source: { id: null }, target: { id: null }, label: null, value: null },
       nodesData: [],
       edgesData: [],
-      chartImageSrc: '../assets/yixiang.jpg', // 图表区的图片路径
+      chartImageSrc: '../assets/test.jpg', // 图表区的图片路径
       conversationLog: [], // 命令记录数组
     };
   },
@@ -144,6 +141,11 @@ export default {
   methods: {
     handleEnter(event) {
       const command = event.target.value.trim();
+      this.addToConversation(command); // 将命令添加到记录中
+      event.target.value = ''; // 清空输入框
+
+
+      //命令处理
       if (command === 'image-enlarge') {
         const chartArea = document.querySelector('.chart-area');
         console.log(chartArea);
@@ -153,12 +155,14 @@ export default {
           const newTab = window.open(imageUrl, '_blank');
           console.log(newTab);
         }
-      } else if (command === 'clear') {
+      }
+
+      if (command === 'clear') {
         this.clearConversationLog(); // 清空命令记录
         event.target.value = ''; // 清空输入框
-      } else {
-        this.addToConversation(command); // 将命令添加到记录中
-        event.target.value = ''; // 清空输入框
+      }
+
+      if (command === 'image-show'||command === 'image') {
         this.addToChart(); // 添加图片到图表区域
       }
     },
@@ -180,7 +184,7 @@ export default {
 
       // 创建并插入新的图片
       const newImage = document.createElement('img');
-      newImage.src = 'src/assets/yixiang.jpg'; // 修改为你的图片路径
+      newImage.src = 'src/assets/test.jpg'; // 修改为你的图片路径
       newImage.style.maxWidth = '100%'; // 设置图片最大宽度为容器宽度
       newImage.style.maxHeight = '100%'; //
       newImage.style.width = 'auto'; //
@@ -258,7 +262,6 @@ export default {
               .style('stroke', '#ffa');
           // 设置当前选中的边
           this.selectedEdge = d;
-          const currLabel = event.target.__data__.label;
           d3.select(event.currentTarget)
               .transition().duration(200)
               .style('stroke', '#0ff');
@@ -420,10 +423,9 @@ export default {
 
     function getRandomNumber() {
       // 获取一个0到9999之间的整数
-      var randomInteger = Math.floor(Math.random() * 10000);
+      const randomInteger = Math.floor(Math.random() * 10000);
       // 将整数除以10000，保留小数点后四位
-      var randomNumber = randomInteger / 10000;
-      return randomNumber;
+      return randomInteger / 10000;
     }
 
   }
